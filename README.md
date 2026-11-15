@@ -173,7 +173,7 @@ src/
 
 | Member | Area |
 | --- | --- |
-|Md. Kamrul Hassan Rabby | Core setup, configuration, database and migrations, Swagger, middleware, response and error format |
+| Member 1 (Md. Kamrul Hassan Rabby, team lead) | Core setup, configuration, database and migrations, Swagger, middleware, response and error format |
 | Member 2 | Auth and users |
 | Member 3 | Departments and courses |
 | Member 4 | Enrollments and grades |
