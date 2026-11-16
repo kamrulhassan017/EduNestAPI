@@ -1,4 +1,4 @@
-# Member 2: Auth and Users
+# Member 2 (Rupam): Auth and Users
 
 Registration, login with JWT, role-based access for every route, user management for admins, and a welcome email.
 

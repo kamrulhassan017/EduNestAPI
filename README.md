@@ -154,9 +154,9 @@ src/
     interfaces/              response types
     middleware/              RequestLoggerMiddleware
     utils/                   paginate()
-  auth/  users/              Member 2
-  departments/  courses/     Member 3
-  enrollments/  grades/      Member 4
+  auth/  users/              Member 2 (Rupam)
+  departments/  courses/  offerings/   Member 3 (Ismail)
+  enrollments/  grades/  audit/       Member 4 (Dhrubo)
 ```
 
 ## Building a feature module
@@ -173,7 +173,7 @@ src/
 
 | Member | Area |
 | --- | --- |
-| Member 1 (Md. Kamrul Hassan Rabby, team lead) | Core setup, configuration, database and migrations, Swagger, middleware, response and error format |
-| Member 2 | Auth and users |
-| Member 3 | Departments and courses |
-| Member 4 | Enrollments and grades |
+| Member 1 (Kamrul, team lead) | Core setup, configuration, database and migrations, Swagger, middleware, response and error format |
+| Member 2 (Rupam) | Auth and users, JWT, roles, mailer |
+| Member 3 (Ismail) | Departments, courses and course offerings |
+| Member 4 (Dhrubo) | Enrollments, grades and audit log |
