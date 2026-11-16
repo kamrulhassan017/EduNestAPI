@@ -67,7 +67,7 @@ const options = {
 before(async () => {
   assert.ok(
     options.port && options.password,
-    'Use node test/member3/run-postgres.cjs (disposable DB only)',
+    'Use node test/member3-ismail/run-postgres.cjs (disposable DB only)',
   );
   ds = new DataSource(options);
   await ds.initialize();

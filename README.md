@@ -136,27 +136,32 @@ Every error:
 
 ```
 src/
-  main.ts                    bootstrap: prefix, ValidationPipe, filter, interceptors, Swagger
-  app.module.ts              ConfigModule, TypeORM, request logger, feature modules
-  app.controller.ts          GET /api/v1/health
-  config/
+  main.ts                    Member 1 (Kamrul): bootstrap, ValidationPipe, filter, interceptors, Swagger
+  app.module.ts              Member 1 (Kamrul): config, TypeORM, request logger, all feature modules
+  app.controller.ts          Member 1 (Kamrul): GET /api/v1/health
+  config/                    Member 1 (Kamrul)
     env.validation.ts        rules for every .env value
     swagger.config.ts        Swagger UI at /api/docs with bearer auth
-  database/
+  database/                  Member 1 (Kamrul); each member adds their own migrations
     typeorm.config.ts        shared DB settings (app + CLI)
     data-source.ts           data source for the migration CLI
     migrations/
-  common/
-    decorators/              @ResponseMessage (auth decorators added by the Auth module)
+  common/                    Member 1 (Kamrul), plus shared pieces from others:
+    decorators/              @ResponseMessage (Kamrul); @Roles, @CurrentUser, @Public (Rupam)
     dto/                     PaginationQueryDto
     filters/                 AllExceptionsFilter
     interceptors/            TransformInterceptor (response envelope)
-    interfaces/              response types
+    interfaces/              response types; AuthUser (Rupam)
     middleware/              RequestLoggerMiddleware
+    swagger/                 Swagger response helpers (Ismail)
     utils/                   paginate()
-  auth/  users/              Member 2 (Rupam)
+  auth/  users/  mail/                 Member 2 (Rupam)
   departments/  courses/  offerings/   Member 3 (Ismail)
-  enrollments/  grades/  audit/       Member 4 (Dhrubo)
+  enrollments/  grades/  audit/        Member 4 (Dhrubo)
+docs/
+  member1-kamrul/  member2-rupam/  member3-ismail/  member4-dhrubo/
+test/
+  member3-ismail/  member4-dhrubo/
 ```
 
 ## Building a feature module
@@ -171,9 +176,11 @@ src/
 
 ## Team
 
-| Member | Area |
-| --- | --- |
-| Member 1 (Kamrul, team lead) | Core setup, configuration, database and migrations, Swagger, middleware, response and error format |
-| Member 2 (Rupam) | Auth and users, JWT, roles, mailer |
-| Member 3 (Ismail) | Departments, courses and course offerings |
-| Member 4 (Dhrubo) | Enrollments, grades and audit log |
+Each member's documentation is in `docs/`:
+
+| Member | Area | Docs |
+| --- | --- | --- |
+| Member 1 (Kamrul, team lead) | Core setup, configuration, database and migrations, Swagger, middleware, response and error format | [`docs/member1-kamrul`](docs/member1-kamrul/README.md) |
+| Member 2 (Rupam) | Auth and users, JWT, roles, mailer | [`docs/member2-rupam`](docs/member2-rupam/README.md) |
+| Member 3 (Ismail) | Departments, courses and course offerings | [`docs/member3-ismail`](docs/member3-ismail/README.md) |
+| Member 4 (Dhrubo) | Enrollments, grades and audit log | [`docs/member4-dhrubo`](docs/member4-dhrubo/README.md) |

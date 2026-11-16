@@ -1,12 +1,12 @@
-// Creates/removes only its own disposable, loopback-only PostgreSQL 17 container.
-// Never reads .env. Existing databases/containers and production source are untouched.
+// Runs integration tests against a new, loopback-only disposable PostgreSQL 17.
+// No .env is read and no existing database/container is used or deleted.
 const { execFileSync, spawnSync } = require('node:child_process');
 const { randomBytes } = require('node:crypto');
-const { setTimeout: delay } = require('node:timers/promises');
 const path = require('node:path');
+const { setTimeout: delay } = require('node:timers/promises');
 
 async function main() {
-  const name = `edunest-member4-${process.pid}-${Date.now()}`;
+  const name = `edunest-member3-${process.pid}-${Date.now()}`;
   const password = randomBytes(24).toString('hex');
   let created = false;
   try {
@@ -19,11 +19,11 @@ async function main() {
         '--name',
         name,
         '-e',
-        'POSTGRES_USER=member4',
+        'POSTGRES_USER=member3',
         '-e',
         `POSTGRES_PASSWORD=${password}`,
         '-e',
-        'POSTGRES_DB=member4_test',
+        'POSTGRES_DB=member3_test',
         '-p',
         '127.0.0.1::5432',
         'postgres:17-alpine',
@@ -33,7 +33,7 @@ async function main() {
     created = true;
     let ready = false;
     for (let attempt = 0; attempt < 60; attempt++) {
-      const check = spawnSync(
+      const result = spawnSync(
         'docker',
         [
           'exec',
@@ -42,39 +42,43 @@ async function main() {
           '-h',
           '127.0.0.1',
           '-U',
-          'member4',
+          'member3',
           '-d',
-          'member4_test',
+          'member3_test',
         ],
         { stdio: 'ignore' },
       );
-      if (check.status === 0) {
+      if (result.status === 0) {
         ready = true;
         break;
       }
       await delay(500);
     }
-    if (!ready) throw Error('Temporary PostgreSQL failed to become ready');
-    const port = execFileSync('docker', ['port', name, '5432/tcp'], {
+    if (!ready)
+      throw Error(
+        'Temporary PostgreSQL did not become ready within 30 seconds',
+      );
+    const address = execFileSync('docker', ['port', name, '5432/tcp'], {
       encoding: 'utf8',
-    })
-      .trim()
-      .split(':')
-      .at(-1);
+    }).trim();
+    const port = address.split(':').at(-1);
     console.log(
-      `Member 4 real PostgreSQL/HTTP tests on 127.0.0.1:${port}; Member 2 identities are fixtures, NOT JWT tests.`,
+      `Testing Member 3 against disposable PostgreSQL on 127.0.0.1:${port}`,
+    );
+    console.log(
+      'Member 2 identity/role contracts are TEST FIXTURES, not real JWT authentication.',
     );
     const result = spawnSync(
       process.execPath,
-      ['--test', 'test/member4/workflows.integration.test.cjs'],
+      ['--test', 'test/member3-ismail/catalogue.integration.test.cjs'],
       {
         cwd: path.resolve(__dirname, '../..'),
         stdio: 'inherit',
         timeout: 180000,
         env: {
           ...process.env,
-          MEMBER4_TEST_PORT: port,
-          MEMBER4_TEST_PASSWORD: password,
+          MEMBER3_TEST_PORT: port,
+          MEMBER3_TEST_PASSWORD: password,
         },
       },
     );
@@ -83,7 +87,9 @@ async function main() {
   } finally {
     if (created) {
       execFileSync('docker', ['rm', '-f', name], { stdio: 'ignore' });
-      console.log('Removed the temporary PostgreSQL container and database.');
+      console.log(
+        'Removed the temporary PostgreSQL container and its database.',
+      );
     }
   }
 }

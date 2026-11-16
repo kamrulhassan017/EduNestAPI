@@ -1,5 +1,5 @@
 // TEST ONLY: reuse missing Member 2 contracts, never substitute Member 3 or 4 code.
-require('../member3/register-fixtures.cjs');
+require('../member3-ismail/register-fixtures.cjs');
 const assert = require('node:assert/strict');
 const {
   Module,
@@ -14,7 +14,7 @@ const { DataSource } = require('typeorm');
 const {
   User,
   FixtureUsers1700000000000,
-} = require('../member3/fixture-contracts.cjs');
+} = require('../member3-ismail/fixture-contracts.cjs');
 const {
   Department,
 } = require('../../src/departments/entities/department.entity.ts');
@@ -124,7 +124,7 @@ async function setup() {
   };
   assert.ok(
     options.port && options.password,
-    'Use node test/member4/run-postgres.cjs (disposable DB only)',
+    'Use node test/member4-dhrubo/run-postgres.cjs (disposable DB only)',
   );
   const ds = new DataSource(options);
   let app;

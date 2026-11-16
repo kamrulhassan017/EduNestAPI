@@ -36,8 +36,8 @@ Install the existing lockfile dependencies, then run:
 
 ```sh
 npm ci
-node --test test/member3/validation.test.cjs test/member3/swagger.test.cjs
-node test/member3/run-postgres.cjs
+node --test test/member3-ismail/validation.test.cjs test/member3-ismail/swagger.test.cjs
+node test/member3-ismail/run-postgres.cjs
 ```
 
 The integration runner needs Docker. It starts a **new PostgreSQL 17** container
@@ -71,7 +71,7 @@ Coverage:
 
 ### Important test boundary
 
-`test/member3/register-fixtures.cjs` redirects **only six Member 2 contracts** to
+`test/member3-ismail/register-fixtures.cjs` redirects **only six Member 2 contracts** to
 `fixture-contracts.cjs` inside the test process. The fixtures supply a minimal
 User table, UsersService and fixed test identities/role guard. Your actual
 controllers, services, DTOs, entities, modules and migrations are tested.

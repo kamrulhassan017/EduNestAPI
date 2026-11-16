@@ -173,12 +173,12 @@ Run from **EduNestAPI**, not its parent repository:
 
 ```sh
 npm ci
-node --test test/member4/unit.test.cjs
-node test/member4/run-postgres.cjs
+node --test test/member4-dhrubo/unit.test.cjs
+node test/member4-dhrubo/run-postgres.cjs
 
 # Existing Member 3 regression suite
-node --test test/member3/validation.test.cjs test/member3/swagger.test.cjs
-node test/member3/run-postgres.cjs
+node --test test/member3-ismail/validation.test.cjs test/member3-ismail/swagger.test.cjs
+node test/member3-ismail/run-postgres.cjs
 ```
 
 Docker is required for PostgreSQL suites. Each runner creates its own random-port,
