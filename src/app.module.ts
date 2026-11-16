@@ -9,6 +9,9 @@ import { buildTypeOrmOptions } from './database/typeorm.config';
 import { CoursesModule } from './courses/courses.module';
 import { DepartmentsModule } from './departments/departments.module';
 import { OfferingsModule } from './offerings/offerings.module';
+import { AuditModule } from './audit/audit.module';
+import { EnrollmentsModule } from './enrollments/enrollments.module';
+import { GradesModule } from './grades/grades.module';
 
 @Module({
   imports: [
@@ -33,7 +36,9 @@ import { OfferingsModule } from './offerings/offerings.module';
     DepartmentsModule,
     CoursesModule,
     OfferingsModule,
-    // EnrollmentsModule, GradesModule  (Member 4)
+    AuditModule,
+    EnrollmentsModule,
+    GradesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
