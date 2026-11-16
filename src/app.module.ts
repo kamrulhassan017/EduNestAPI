@@ -6,7 +6,10 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { RequestLoggerMiddleware } from './common/middleware/request-logger.middleware';
 import { validateEnv } from './config/env.validation';
+import { CoursesModule } from './courses/courses.module';
 import { buildTypeOrmOptions } from './database/typeorm.config';
+import { DepartmentsModule } from './departments/departments.module';
+import { OfferingsModule } from './offerings/offerings.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -27,11 +30,13 @@ import { UsersModule } from './users/users.module';
       }),
     }),
 
-    // Feature modules are added here as they are merged:
+    // Member 2
     UsersModule,
     AuthModule, // also registers the global JwtAuthGuard and RolesGuard
-    // DepartmentsModule, CoursesModule (Member 3)
-    // EnrollmentsModule, GradesModule  (Member 4)
+    // Member 3
+    DepartmentsModule,
+    CoursesModule,
+    OfferingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
