@@ -6,6 +6,9 @@ import { AppService } from './app.service';
 import { RequestLoggerMiddleware } from './common/middleware/request-logger.middleware';
 import { validateEnv } from './config/env.validation';
 import { buildTypeOrmOptions } from './database/typeorm.config';
+import { CoursesModule } from './courses/courses.module';
+import { DepartmentsModule } from './departments/departments.module';
+import { OfferingsModule } from './offerings/offerings.module';
 
 @Module({
   imports: [
@@ -27,7 +30,9 @@ import { buildTypeOrmOptions } from './database/typeorm.config';
 
     // Feature modules are added here as they are merged:
     // AuthModule, UsersModule        (Member 2)
-    // DepartmentsModule, CoursesModule (Member 3)
+    DepartmentsModule,
+    CoursesModule,
+    OfferingsModule,
     // EnrollmentsModule, GradesModule  (Member 4)
   ],
   controllers: [AppController],
