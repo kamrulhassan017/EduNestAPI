@@ -14,7 +14,7 @@ export class AuditLog {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  /** Deliberately no foreign key: history survives deletion of the actor. */
+  // no FK on purpose so logs outlive the user
   @ApiProperty({ type: Number, nullable: true, example: 1 })
   @Index()
   @Column({ type: 'int', nullable: true })

@@ -17,15 +17,12 @@ import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    // Reads .env once, validates it, and makes ConfigService available everywhere.
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
       validate: validateEnv,
     }),
 
-    // Database connection. Feature modules register their entities with
-    // TypeOrmModule.forFeature([...]); autoLoadEntities picks them up.
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         ...buildTypeOrmOptions(process.env),
@@ -33,14 +30,11 @@ import { UsersModule } from './users/users.module';
       }),
     }),
 
-    // Member 2
     UsersModule,
-    AuthModule, // also registers the global JwtAuthGuard and RolesGuard
-    // Member 3
+    AuthModule,
     DepartmentsModule,
     CoursesModule,
     OfferingsModule,
-    // Member 4
     AuditModule,
     EnrollmentsModule,
     GradesModule,

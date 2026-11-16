@@ -1,16 +1,5 @@
 import { PaginatedResult } from '../interfaces/api-response.interface';
 
-/**
- * Builds a paginated result. Typical use in a service:
- *
- *   const [items, total] = await this.repo.findAndCount({
- *     skip: (query.page - 1) * query.limit,
- *     take: query.limit,
- *   });
- *   return paginate(items, total, query.page, query.limit);
- *
- * The response interceptor turns it into { success, message, data: items, meta }.
- */
 export function paginate<T>(
   items: T[],
   total: number,

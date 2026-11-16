@@ -17,25 +17,20 @@ async function bootstrap() {
   const config = app.get(ConfigService);
   const reflector = app.get(Reflector);
 
-  // Every route starts with /api/v1
   app.setGlobalPrefix(API_PREFIX);
   app.enableCors();
 
-  // DTO validation for every request body, query and param.
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // strip properties not in the DTO
-      forbidNonWhitelisted: true, // ...and reject the request if any were sent
-      transform: true, // turn payloads into DTO instances, "5" -> 5 for numbers
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
     }),
   );
 
-  // One error shape for the whole API.
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  // Order matters: the first interceptor wraps the second.
-  // ClassSerializerInterceptor runs first on the way out (applies @Exclude, e.g. passwordHash),
-  // then TransformInterceptor wraps the result in { success, message, data, meta }.
+  // serializer runs first so passwordHash is gone before the response is wrapped
   app.useGlobalInterceptors(
     new TransformInterceptor(reflector),
     new ClassSerializerInterceptor(reflector),

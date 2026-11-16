@@ -1,6 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-/** Member 2's users migration and CreateDepartmentsAndCourses must run first. */
 export class CreateCourseOfferings1794780001000 implements MigrationInterface {
   name = 'CreateCourseOfferings1794780001000';
 

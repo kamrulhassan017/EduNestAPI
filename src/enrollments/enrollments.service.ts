@@ -28,14 +28,12 @@ export class EnrollmentsService {
     private readonly offeringsService: OfferingsService,
   ) {}
 
-  /** All checks and writes share one transaction; errors roll back everything. */
   async enroll(
     studentId: number,
     dto: CreateEnrollmentDto,
   ): Promise<Enrollment> {
     const enrollmentId = await this.dataSource.transaction(async (manager) => {
-      // Lock order: student -> offering. Serializes one student's requests even
-      // across DIFFERENT sections; an offering lock alone cannot enforce rule 2.
+      // lock the student row first so one student's requests can't race each other
       const student = await manager.findOne(User, {
         where: { id: studentId },
         lock: { mode: 'pessimistic_write' },
@@ -165,8 +163,7 @@ export class EnrollmentsService {
 
   async drop(id: number, user: AuthUser): Promise<Enrollment> {
     await this.dataSource.transaction(async (manager) => {
-      // GradesService takes this SAME row lock: grade and drop cannot both pass
-      // their checks against a stale snapshot. No nullable joined rows are locked.
+      // same lock as GradesService.setGrade so grading and dropping can't overlap
       const enrollment = await manager.findOne(Enrollment, {
         where: { id },
         lock: { mode: 'pessimistic_write' },

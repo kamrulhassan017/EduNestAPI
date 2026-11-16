@@ -2,10 +2,6 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsInt, IsOptional, Max, Min } from 'class-validator';
 
-/**
- * Reuse in any list endpoint: @Query() query: PaginationQueryDto
- * Extend it to add filters, e.g. class CourseQueryDto extends PaginationQueryDto.
- */
 export class PaginationQueryDto {
   @ApiPropertyOptional({ default: 1, minimum: 1 })
   @IsOptional()

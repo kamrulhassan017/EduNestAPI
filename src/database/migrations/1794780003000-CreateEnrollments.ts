@@ -1,6 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-/** Prerequisites: Member 2 users, then Member 3 course_offerings. */
 export class CreateEnrollments1794780003000 implements MigrationInterface {
   name = 'CreateEnrollments1794780003000';
 

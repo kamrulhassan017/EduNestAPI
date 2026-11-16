@@ -51,7 +51,7 @@ export class OfferingsController {
     return this.offeringsService.findAll(query);
   }
 
-  // Literal route MUST precede :id.
+  // keep above :id
   @Get('mine')
   @Roles(Role.TEACHER)
   @ResponseMessage('Your offerings')

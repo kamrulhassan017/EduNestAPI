@@ -1,9 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-/**
- * Member 2: the users table. Runs before every other migration because
- * course_offerings, enrollments and grades all reference users(id).
- */
 export class CreateUsers1794770000000 implements MigrationInterface {
   name = 'CreateUsers1794770000000';
 

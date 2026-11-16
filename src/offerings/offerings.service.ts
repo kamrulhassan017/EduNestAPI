@@ -42,14 +42,13 @@ export class OfferingsService {
     return paginate(items, total, query.page, query.limit);
   }
 
-  /** Override untrusted teacherId without losing the DTO's inherited skip getter. */
+  // copy into a real OfferingQueryDto so the skip getter still works
   findMine(teacherId: number, query: OfferingQueryDto) {
     return this.findAll(
       Object.assign(new OfferingQueryDto(), query, { teacherId }),
     );
   }
 
-  /** Public contract for Member 4: do not rename this method or its relations. */
   async findOne(id: number): Promise<CourseOffering> {
     const offering = await this.offeringRepo.findOne({
       where: { id },
@@ -74,7 +73,6 @@ export class OfferingsService {
 
   async remove(id: number): Promise<void> {
     await this.findOne(id);
-    // Member 4's enrollment FK uses RESTRICT; the shared filter maps it to 409.
     await this.offeringRepo.delete(id);
   }
 }

@@ -10,11 +10,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-/**
- * Password rules shared by register, admin create and change password.
- * 8–72 characters (bcrypt only uses the first 72 bytes), at least one letter
- * and one number.
- */
+// bcrypt ignores anything past 72 bytes
 export function IsAcceptablePassword(example = 'Passw0rd!') {
   return applyDecorators(
     ApiProperty({ example, minLength: 8, maxLength: 72 }),
@@ -27,7 +23,6 @@ export function IsAcceptablePassword(example = 'Passw0rd!') {
   );
 }
 
-/** Trims and lower-cases emails so "Rabby@X.com " and "rabby@x.com" are the same account. */
 export function IsNormalizedEmail(example = 'student@edunest.local') {
   return applyDecorators(
     ApiProperty({ example, maxLength: 255 }),
@@ -39,7 +34,6 @@ export function IsNormalizedEmail(example = 'student@edunest.local') {
   );
 }
 
-/** A person's display name, trimmed, 2–100 characters. */
 export function IsPersonName(example = 'Md. Kamrul Hassan Rabby') {
   return applyDecorators(
     ApiProperty({ example, minLength: 2, maxLength: 100 }),

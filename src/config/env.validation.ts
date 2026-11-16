@@ -17,10 +17,6 @@ export enum NodeEnv {
   Test = 'test',
 }
 
-/**
- * Every value the app reads from .env, with its rules.
- * The app refuses to start if a required value is missing or invalid.
- */
 export class EnvironmentVariables {
   @IsEnum(NodeEnv)
   NODE_ENV: NodeEnv = NodeEnv.Development;
@@ -62,13 +58,11 @@ export class EnvironmentVariables {
   @IsOptional()
   JWT_EXPIRES_IN: string = '1h';
 
-  /** NFR-01: bcrypt cost, at least 10. */
   @IsInt()
   @Min(10)
   @Max(15)
   BCRYPT_SALT_ROUNDS: number = 10;
 
-  // First admin, seeded on start-up if no admin exists.
   @IsString()
   @IsOptional()
   ADMIN_NAME?: string;
@@ -81,8 +75,7 @@ export class EnvironmentVariables {
   @IsOptional()
   ADMIN_PASSWORD?: string;
 
-  // SMTP for the mailer (Mailtrap sandbox while testing). Optional: without
-  // MAIL_USER / MAIL_PASSWORD the app runs and simply skips sending emails.
+  // mail is optional, emails are skipped without MAIL_USER/MAIL_PASSWORD
   @IsString()
   @IsOptional()
   MAIL_HOST?: string;

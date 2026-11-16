@@ -15,7 +15,6 @@ const ACTIONS: Record<string, string> = {
   PATCH: 'UPDATE',
   DELETE: 'DELETE',
 };
-// Auth has no useful change trail; Grades writes its own old/new marks entries.
 const SKIP = new Set(['Auth', 'Grades']);
 
 function findId(result: unknown): string | null {
@@ -45,7 +44,6 @@ export class AuditInterceptor implements NestInterceptor {
     const params = request.params as Record<string, string | undefined>;
     return next.handle().pipe(
       tap((result: unknown) => {
-        // Error emissions are not audited. Never store request bodies or credentials.
         void this.auditService.log({
           actorId: request.user?.id ?? null,
           actorRole: request.user?.role ?? null,

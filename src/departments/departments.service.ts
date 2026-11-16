@@ -50,7 +50,6 @@ export class DepartmentsService {
     return department;
   }
 
-  /** Public contract consumed by CoursesService. */
   async ensureExists(id: number): Promise<void> {
     if (!(await this.departmentRepo.existsBy({ id }))) {
       throw new NotFoundException(`Department ${id} not found`);
@@ -73,7 +72,6 @@ export class DepartmentsService {
         `Department ${id} still has ${courseCount} course(s); delete or move them first`,
       );
     }
-    // The database FK also protects against a concurrent course creation.
     await this.departmentRepo.delete(id);
   }
 }

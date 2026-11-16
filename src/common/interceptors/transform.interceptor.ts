@@ -18,11 +18,6 @@ const DEFAULT_MESSAGES: Record<string, string> = {
   DELETE: 'Deleted successfully',
 };
 
-/**
- * Wraps every successful response in one envelope:
- *   { success: true, message, data, meta }
- * A paginated result { items, meta } becomes data = items, meta = meta.
- */
 @Injectable()
 export class TransformInterceptor<T> implements NestInterceptor<
   T,

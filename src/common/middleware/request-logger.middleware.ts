@@ -2,11 +2,6 @@ import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { NextFunction, Request, Response } from 'express';
 
-/**
- * Runs before every route handler.
- * - Gives each request an id (X-Request-Id header, reused if the client sent one).
- * - Logs method, URL, status code and duration when the response finishes.
- */
 @Injectable()
 export class RequestLoggerMiddleware implements NestMiddleware {
   private readonly logger = new Logger('HTTP');

@@ -15,7 +15,6 @@ export interface ApiEnvelopeOptions {
   paginated?: boolean;
 }
 
-/** Documents the actual { success, message, data, meta } response envelope. */
 export function ApiEnvelope(
   model: Type<unknown> | null,
   options: ApiEnvelopeOptions = {},
@@ -51,7 +50,6 @@ export function ApiEnvelope(
           success: { type: 'boolean', example: true },
           message: { type: 'string', example: 'OK' },
           data,
-          // This checkout always emits meta, with null for non-paginated results.
           meta: paginated
             ? { $ref: getSchemaPath(PaginationMetaDto) }
             : { type: 'object', nullable: true, example: null },

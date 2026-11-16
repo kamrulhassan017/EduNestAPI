@@ -10,7 +10,6 @@ import {
 import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
 import { Role } from '../enums/role.enum';
 
-/** GET /users?page=1&limit=10&role=teacher&isActive=true&search=rahman */
 export class UserQueryDto extends PaginationQueryDto {
   @ApiPropertyOptional({ enum: Role })
   @IsOptional()

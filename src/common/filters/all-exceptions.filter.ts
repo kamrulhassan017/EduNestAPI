@@ -10,7 +10,6 @@ import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
 import { ApiErrorResponse } from '../interfaces/api-response.interface';
 
-/** PostgreSQL error codes we turn into clear HTTP responses. */
 const PG_UNIQUE_VIOLATION = '23505';
 const PG_FOREIGN_KEY_VIOLATION = '23503';
 const PG_NOT_NULL_VIOLATION = '23502';
@@ -22,11 +21,6 @@ interface PgDriverError {
   detail?: string;
 }
 
-/**
- * Catches every error and returns one consistent shape:
- *   { success: false, statusCode, error, message, path, timestamp }
- * Stack traces go to the server log only, never to the client.
- */
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   private readonly logger = new Logger(AllExceptionsFilter.name);
@@ -61,8 +55,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
     statusCode: number;
     message: string | string[];
   } {
-    // Nest's built-in exceptions (NotFoundException, ConflictException, ...)
-    // and ValidationPipe errors (BadRequestException with a list of messages).
     if (exception instanceof HttpException) {
       const res = exception.getResponse();
       let message: string | string[] = exception.message;
@@ -76,7 +68,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
       return { statusCode: exception.getStatus(), message };
     }
 
-    // Database errors from TypeORM.
     if (exception instanceof QueryFailedError) {
       const driverError = exception.driverError as PgDriverError;
 
@@ -108,7 +99,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
     };
   }
 
-  /** Turns 'Key (email)=(a@b.com) already exists.' into a readable message. */
   private describeUnique(detail?: string): string {
     const match = detail?.match(/Key \((.+?)\)=\((.*?)\) already exists/);
     if (match) {

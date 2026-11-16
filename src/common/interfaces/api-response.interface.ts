@@ -5,7 +5,6 @@ export interface PaginationMeta {
   totalPages: number;
 }
 
-/** Shape of every successful response. */
 export interface ApiSuccessResponse<T = unknown> {
   success: true;
   message: string;
@@ -13,7 +12,6 @@ export interface ApiSuccessResponse<T = unknown> {
   meta: PaginationMeta | null;
 }
 
-/** Shape of every error response (produced by AllExceptionsFilter). */
 export interface ApiErrorResponse {
   success: false;
   statusCode: number;
@@ -23,7 +21,6 @@ export interface ApiErrorResponse {
   timestamp: string;
 }
 
-/** What a service returns for a paginated list; the interceptor unwraps it. */
 export interface PaginatedResult<T> {
   items: T[];
   meta: PaginationMeta;

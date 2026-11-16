@@ -14,7 +14,6 @@ import { OfferingsService } from './offerings.service';
   ],
   controllers: [OfferingsController],
   providers: [OfferingsService],
-  // Required by Member 4's EnrollmentsModule and GradesModule.
   exports: [OfferingsService],
 })
 export class OfferingsModule {}

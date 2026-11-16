@@ -34,8 +34,7 @@ export class GradesService {
   ): Promise<Grade> {
     const { saved, oldMarks } = await this.dataSource.transaction(
       async (manager) => {
-        // Serialize both simultaneous grade upserts and grade-vs-drop. The check
-        // and write happen under the same lock used in EnrollmentsService.drop.
+        // same row lock as EnrollmentsService.drop
         const enrollment = await manager.findOne(Enrollment, {
           where: { id: enrollmentId },
           lock: { mode: 'pessimistic_write' },
@@ -69,8 +68,6 @@ export class GradesService {
       },
     );
 
-    // Only committed grades are audited. Audit is intentionally best-effort and
-    // outside the business transaction, as required by the guide.
     await this.auditService.log({
       actorId: user.id,
       actorRole: user.role,

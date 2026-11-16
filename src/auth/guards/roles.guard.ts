@@ -11,10 +11,6 @@ import { ROLES_KEY } from '../../common/decorators/roles.decorator';
 import { AuthUser } from '../../common/interfaces/auth-user.interface';
 import { Role } from '../../users/enums/role.enum';
 
-/**
- * Global guard, runs after JwtAuthGuard. Compares the user's role with the
- * roles listed in @Roles(...). No @Roles = any logged-in user. Wrong role = 403.
- */
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}

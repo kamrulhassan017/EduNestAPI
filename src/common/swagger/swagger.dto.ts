@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-/** Documentation models; runtime responses are built by the shared interceptor. */
 export class PaginationMetaDto {
   @ApiProperty({ example: 1, minimum: 1 })
   page: number;

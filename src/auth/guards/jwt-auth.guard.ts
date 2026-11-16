@@ -7,10 +7,6 @@ import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { IS_PUBLIC_KEY } from '../../common/decorators/public.decorator';
 
-/**
- * Global guard (registered in AuthModule). Every route needs a valid token
- * unless it is marked @Public(). Missing, bad or expired token = 401.
- */
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
   constructor(private readonly reflector: Reflector) {

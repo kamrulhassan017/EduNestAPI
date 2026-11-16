@@ -3,7 +3,7 @@ export interface LetterGrade {
   point: number;
 }
 
-/** Bangladesh UGC uniform scale, highest threshold first. */
+// UGC grading scale, highest first
 const SCALE: ReadonlyArray<{ min: number } & LetterGrade> = [
   { min: 80, letter: 'A+', point: 4 },
   { min: 75, letter: 'A', point: 3.75 },

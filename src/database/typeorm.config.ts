@@ -1,12 +1,6 @@
 import { join } from 'path';
 import { DataSourceOptions } from 'typeorm';
 
-/**
- * One source of database settings, shared by the running app (app.module.ts)
- * and the TypeORM CLI used for migrations (data-source.ts).
- *
- * synchronize is always false: the schema changes only through migration files.
- */
 export function buildTypeOrmOptions(env: NodeJS.ProcessEnv): DataSourceOptions {
   return {
     type: 'postgres',

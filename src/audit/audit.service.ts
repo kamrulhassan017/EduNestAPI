@@ -23,7 +23,7 @@ export class AuditService {
     private readonly auditRepo: Repository<AuditLog>,
   ) {}
 
-  /** Best effort by specification: an audit failure must not undo a real request. */
+  // logging should never break the actual request
   async log(entry: AuditEntry): Promise<void> {
     try {
       await this.auditRepo.save(

@@ -23,11 +23,10 @@ export class AuthService {
     private readonly config: ConfigService,
   ) {}
 
-  /** Public sign-up. Always a student; teachers and admins are created by an admin. */
   async register(dto: RegisterDto): Promise<User> {
     const user = await this.usersService.create({ ...dto, role: Role.STUDENT });
 
-    // Fire and forget: the account exists even if the email fails.
+    // don't fail registration if the email can't be sent
     void this.mailService.sendWelcome({
       name: user.name,
       email: user.email,
@@ -37,7 +36,6 @@ export class AuthService {
     return user;
   }
 
-  /** Checks the password against the bcrypt hash and signs a JWT with id and role. */
   async login(dto: LoginDto): Promise<LoginResponseDto> {
     const found = await this.usersService.findByEmailWithPassword(dto.email);
     const passwordOk =
@@ -47,7 +45,7 @@ export class AuthService {
         found.passwordHash,
       ));
 
-    // Same message for unknown email and wrong password, so emails can't be guessed.
+    // same error for unknown email and wrong password
     if (!found || !passwordOk) {
       throw new UnauthorizedException('Invalid email or password');
     }
@@ -66,7 +64,6 @@ export class AuthService {
       accessToken,
       tokenType: 'Bearer',
       expiresIn: this.config.get<string>('JWT_EXPIRES_IN') ?? '1h',
-      // Re-read without the password hash.
       user: await this.usersService.findOne(found.id),
     };
   }

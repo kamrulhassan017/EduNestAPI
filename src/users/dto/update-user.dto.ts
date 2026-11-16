@@ -12,11 +12,6 @@ import {
 } from 'class-validator';
 import { Role } from '../enums/role.enum';
 
-/**
- * Profile update. Anyone may change their own name and email.
- * Only an admin may change role or isActive (checked in UsersService).
- * Passwords change through PATCH /users/me/password instead.
- */
 export class UpdateUserDto {
   @ApiPropertyOptional({ example: 'Md. Kamrul Hassan Rabby', maxLength: 100 })
   @IsOptional()

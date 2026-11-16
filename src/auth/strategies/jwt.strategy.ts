@@ -8,13 +8,7 @@ import {
 } from '../../common/interfaces/auth-user.interface';
 import { UsersService } from '../../users/users.service';
 
-/**
- * Verifies the Bearer token's signature and expiry, then loads the user.
- * The returned object becomes request.user (read with @CurrentUser()).
- *
- * The user is re-read from the database on each request, so a deactivated
- * account or a changed role takes effect immediately, not when the token expires.
- */
+// user is reloaded on every request so deactivation takes effect immediately
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(

@@ -5,10 +5,6 @@ import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { MailService } from './mail.service';
 
-/**
- * SMTP mailer with Handlebars templates (src/mail/templates/*.hbs).
- * Use a Mailtrap sandbox inbox while testing so no real email is sent.
- */
 @Module({
   imports: [
     MailerModule.forRootAsync({

@@ -2,10 +2,6 @@ import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from './users.service';
 
-/**
- * On start-up, creates the first admin account if the users table has no admin.
- * Credentials come from ADMIN_NAME / ADMIN_EMAIL / ADMIN_PASSWORD in .env.
- */
 @Injectable()
 export class AdminSeederService implements OnApplicationBootstrap {
   private readonly logger = new Logger('AdminSeeder');
@@ -36,7 +32,7 @@ export class AdminSeederService implements OnApplicationBootstrap {
       );
       if (created) this.logger.log(`Seeded admin account ${email}`);
     } catch (error) {
-      // Most likely the users table does not exist yet.
+      // usually means the migrations haven't been run yet
       this.logger.warn(
         `Admin seed skipped (${(error as Error).message}). Run "npm run migration:run" and restart.`,
       );

@@ -42,7 +42,7 @@ export class EnrollmentsController {
     return this.enrollmentsService.enroll(studentId, dto);
   }
 
-  // Static route must precede :id.
+  // keep above :id
   @Get('mine')
   @Roles(Role.STUDENT)
   @ResponseMessage('Your enrollments')

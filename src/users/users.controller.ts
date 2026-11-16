@@ -42,7 +42,7 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // Declared before ':id' so "me" is not parsed as an id.
+  // keep above :id
   @Patch('me/password')
   @HttpCode(HttpStatus.OK)
   @ResponseMessage('Password changed')

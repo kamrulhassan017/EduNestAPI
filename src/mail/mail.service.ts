@@ -17,17 +17,12 @@ export class MailService {
     private readonly config: ConfigService,
   ) {}
 
-  /** True when SMTP credentials are present in .env. */
   get isConfigured(): boolean {
     return Boolean(
       this.config.get('MAIL_USER') && this.config.get('MAIL_PASSWORD'),
     );
   }
 
-  /**
-   * Sends the welcome email after registration.
-   * Never throws: a mail problem must not fail the registration itself.
-   */
   async sendWelcome(user: WelcomeMailRecipient): Promise<boolean> {
     if (!this.isConfigured) {
       this.logger.warn(

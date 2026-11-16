@@ -7,7 +7,6 @@ import {
   IsAcceptablePassword,
 } from './password.rules';
 
-/** Admin creates an account with any role (usually a teacher or another admin). */
 export class CreateUserDto {
   @IsPersonName('Dr. Ayesha Rahman')
   name!: string;

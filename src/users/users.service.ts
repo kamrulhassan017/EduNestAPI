@@ -20,7 +20,6 @@ import { UserQueryDto } from './dto/user-query.dto';
 import { User } from './entities/user.entity';
 import { Role } from './enums/role.enum';
 
-/** NFR-01: at least 10 bcrypt salt rounds. */
 const MIN_SALT_ROUNDS = 10;
 
 @Injectable()
@@ -41,8 +40,6 @@ export class UsersService {
     );
   }
 
-  // ---------- passwords ----------
-
   hashPassword(plain: string): Promise<string> {
     return bcrypt.hash(plain, this.saltRounds);
   }
@@ -51,9 +48,6 @@ export class UsersService {
     return bcrypt.compare(plain, hash);
   }
 
-  // ---------- create ----------
-
-  /** Used by admin POST /users and by AuthService.register (role forced to student there). */
   async create(dto: CreateUserDto): Promise<User> {
     await this.ensureEmailFree(dto.email);
     const user = this.usersRepo.create({
@@ -66,8 +60,6 @@ export class UsersService {
     const saved = await this.usersRepo.save(user);
     return this.findOne(saved.id);
   }
-
-  // ---------- read ----------
 
   async findAll(query: UserQueryDto): Promise<PaginatedResult<User>> {
     const qb = this.usersRepo
@@ -102,10 +94,6 @@ export class UsersService {
     return user;
   }
 
-  /**
-   * Contract used by Members 3 and 4 (e.g. "teacherId must be a teacher").
-   * 404 if the user does not exist, 400 if they have a different role.
-   */
   async findOneWithRole(id: number, role: Role): Promise<User> {
     const user = await this.findOne(id);
     if (user.role !== role) {
@@ -114,7 +102,6 @@ export class UsersService {
     return user;
   }
 
-  /** For login only: includes the password hash, which is normally never selected. */
   findByEmailWithPassword(email: string): Promise<User | null> {
     return this.usersRepo
       .createQueryBuilder('user')
@@ -123,14 +110,10 @@ export class UsersService {
       .getOne();
   }
 
-  /** Used by JwtStrategy on every request: only active accounts may use their token. */
   findActiveById(id: number): Promise<User | null> {
     return this.usersRepo.findOneBy({ id, isActive: true });
   }
 
-  // ---------- update ----------
-
-  /** Owner can change name/email; only an admin can change role or isActive. */
   async update(id: number, dto: UpdateUserDto, actor: AuthUser): Promise<User> {
     const isAdmin = actor.role === Role.ADMIN;
 
@@ -182,9 +165,7 @@ export class UsersService {
     });
   }
 
-  // ---------- delete (soft) ----------
-
-  /** DELETE /users/:id deactivates instead of deleting, so enrollments and grades keep their history. */
+  // soft delete so enrollments and grades keep their history
   async deactivate(id: number, actor: AuthUser): Promise<User> {
     if (actor.id === id) {
       throw new BadRequestException('You cannot deactivate your own account');
@@ -198,9 +179,6 @@ export class UsersService {
     return this.findOne(id);
   }
 
-  // ---------- seed ----------
-
-  /** Creates the first admin if no admin exists yet. Returns true if one was created. */
   async ensureAdmin(
     name: string,
     email: string,
@@ -231,8 +209,6 @@ export class UsersService {
     );
     return true;
   }
-
-  // ---------- helpers ----------
 
   private async ensureEmailFree(email: string): Promise<void> {
     const taken = await this.usersRepo.existsBy({ email });

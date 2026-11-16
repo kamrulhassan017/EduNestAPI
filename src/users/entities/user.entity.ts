@@ -25,10 +25,6 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   email!: string;
 
-  /**
-   * bcrypt hash. Never selected by default (select: false), never serialized
-   * (@Exclude) and never shown in Swagger (@ApiHideProperty).
-   */
   @ApiHideProperty()
   @Exclude()
   @Column({ type: 'varchar', select: false })

@@ -13,7 +13,7 @@ import {
 import { Enrollment } from '../../enrollments/entities/enrollment.entity';
 import { User } from '../../users/entities/user.entity';
 
-/** PostgreSQL returns NUMERIC as strings; the API contract requires numbers. */
+// postgres returns NUMERIC as a string
 const decimalToNumber: ValueTransformer = {
   to: (value: number | null) => value,
   from: (value: string | null) => (value === null ? null : Number(value)),
