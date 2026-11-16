@@ -61,6 +61,47 @@ export class EnvironmentVariables {
   @IsString()
   @IsOptional()
   JWT_EXPIRES_IN: string = '1h';
+
+  /** NFR-01: bcrypt cost, at least 10. */
+  @IsInt()
+  @Min(10)
+  @Max(15)
+  BCRYPT_SALT_ROUNDS: number = 10;
+
+  // First admin, seeded on start-up if no admin exists.
+  @IsString()
+  @IsOptional()
+  ADMIN_NAME?: string;
+
+  @IsString()
+  @IsOptional()
+  ADMIN_EMAIL?: string;
+
+  @IsString()
+  @IsOptional()
+  ADMIN_PASSWORD?: string;
+
+  // SMTP for the mailer (Mailtrap sandbox while testing). Optional: without
+  // MAIL_USER / MAIL_PASSWORD the app runs and simply skips sending emails.
+  @IsString()
+  @IsOptional()
+  MAIL_HOST?: string;
+
+  @IsInt()
+  @IsOptional()
+  MAIL_PORT?: number;
+
+  @IsString()
+  @IsOptional()
+  MAIL_USER?: string;
+
+  @IsString()
+  @IsOptional()
+  MAIL_PASSWORD?: string;
+
+  @IsString()
+  @IsOptional()
+  MAIL_FROM?: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {
@@ -71,7 +112,10 @@ export function validateEnv(config: Record<string, unknown>) {
 
   if (errors.length > 0) {
     const details = errors
-      .map((e) => `  - ${e.property}: ${Object.values(e.constraints ?? {}).join(', ')}`)
+      .map(
+        (e) =>
+          `  - ${e.property}: ${Object.values(e.constraints ?? {}).join(', ')}`,
+      )
       .join('\n');
     throw new Error(`Invalid environment variables in .env:\n${details}`);
   }

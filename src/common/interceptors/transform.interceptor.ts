@@ -24,9 +24,10 @@ const DEFAULT_MESSAGES: Record<string, string> = {
  * A paginated result { items, meta } becomes data = items, meta = meta.
  */
 @Injectable()
-export class TransformInterceptor<T>
-  implements NestInterceptor<T, ApiSuccessResponse<unknown>>
-{
+export class TransformInterceptor<T> implements NestInterceptor<
+  T,
+  ApiSuccessResponse<unknown>
+> {
   constructor(private readonly reflector: Reflector) {}
 
   intercept(

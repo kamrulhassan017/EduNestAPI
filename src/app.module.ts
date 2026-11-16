@@ -3,9 +3,11 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 import { RequestLoggerMiddleware } from './common/middleware/request-logger.middleware';
 import { validateEnv } from './config/env.validation';
 import { buildTypeOrmOptions } from './database/typeorm.config';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -26,7 +28,8 @@ import { buildTypeOrmOptions } from './database/typeorm.config';
     }),
 
     // Feature modules are added here as they are merged:
-    // AuthModule, UsersModule        (Member 2)
+    UsersModule,
+    AuthModule, // also registers the global JwtAuthGuard and RolesGuard
     // DepartmentsModule, CoursesModule (Member 3)
     // EnrollmentsModule, GradesModule  (Member 4)
   ],

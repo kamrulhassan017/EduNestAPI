@@ -1,0 +1,41 @@
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { join } from 'path';
+import { MailService } from './mail.service';
+
+/**
+ * SMTP mailer with Handlebars templates (src/mail/templates/*.hbs).
+ * Use a Mailtrap sandbox inbox while testing so no real email is sent.
+ */
+@Module({
+  imports: [
+    MailerModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        transport: {
+          host: config.get<string>('MAIL_HOST') ?? 'sandbox.smtp.mailtrap.io',
+          port: Number(config.get('MAIL_PORT') ?? 2525),
+          auth: {
+            user: config.get<string>('MAIL_USER') ?? '',
+            pass: config.get<string>('MAIL_PASSWORD') ?? '',
+          },
+        },
+        defaults: {
+          from:
+            config.get<string>('MAIL_FROM') ??
+            '"EduNest" <no-reply@edunest.local>',
+        },
+        template: {
+          dir: join(__dirname, 'templates'),
+          adapter: new HandlebarsAdapter(),
+          options: { strict: true },
+        },
+      }),
+    }),
+  ],
+  providers: [MailService],
+  exports: [MailService],
+})
+export class MailModule {}

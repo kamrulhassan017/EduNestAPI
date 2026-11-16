@@ -28,7 +28,9 @@ export function paginate<T>(
   };
 }
 
-export function isPaginatedResult(value: unknown): value is PaginatedResult<unknown> {
+export function isPaginatedResult(
+  value: unknown,
+): value is PaginatedResult<unknown> {
   if (value === null || typeof value !== 'object') return false;
   const v = value as Record<string, unknown>;
   return (

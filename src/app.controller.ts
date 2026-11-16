@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
+import { Public } from './common/decorators/public.decorator';
 import { ResponseMessage } from './common/decorators/response-message.decorator';
 
 @ApiTags('Health')
@@ -8,6 +9,7 @@ import { ResponseMessage } from './common/decorators/response-message.decorator'
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @Public()
   @Get('health')
   @ResponseMessage('Service is running')
   @ApiOperation({ summary: 'Check that the API and the database are up' })
